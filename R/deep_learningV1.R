@@ -84,11 +84,11 @@ train[,ncol(train)]=as.factor(train[,ncol(train)])
 train_hex=as.h2o(train,destination_frame = "train")
 test_hex=as.h2o(test, destination_frame = "test")
 
-l2=0.0001
-hidden=c(400,200)
-hidden_dropout_ratios=c(0.5,0.5)
-rate=0.00005
-epochs=50
+l2=0.001
+hidden=c(400)
+hidden_dropout_ratios=c(0.5)
+rate=0.00002
+epochs=400
 
 
 deep=h2o.deeplearning(x = colnames(train_hex)[-match("QuoteConversion_Flag",colnames(train_hex))],y ="QuoteConversion_Flag",training_frame=train_hex,
@@ -115,7 +115,7 @@ deep=h2o.deeplearning(x = colnames(train_hex)[-match("QuoteConversion_Flag",coln
                       stopping_rounds = 10,
                       stopping_metric= "MSE",
                       quiet_mode=F,
-                      nesterov_accelerated_gradient=T	
+                      nesterov_accelerated_gradient=T
 )
 
 h2o.saveModel(deep,path="deepmodel")
